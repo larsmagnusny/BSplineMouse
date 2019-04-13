@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <chrono>
 #include <cmath>
+#include <iostream>
 
 namespace BSplineMouse
 {
@@ -17,9 +18,11 @@ namespace BSplineMouse
         chrono::duration<double> delta;
 
         GetCursorPos(&currentMousePosition);
-        vCurrentMousePosition = Vec2(currentMousePosition.x, currentMousePosition.y);
+        vCurrentMousePosition = Vec2(static_cast<double>(currentMousePosition.x), static_cast<double>(currentMousePosition.y));
 
-        curve.makeRandomSplineBetweenTwoPoints(vCurrentMousePosition, mousePos);
+        //std::cout << "Current position is: " << vCurrentMousePosition.x << ", " << vCurrentMousePosition.y << std::endl;
+
+        curve.makeRandomSplineBetweenTwoPoints(Vec2(), mousePos - vCurrentMousePosition);
 
         prevClock = chrono::system_clock::now();
         while(time <= 1.0)
@@ -32,7 +35,7 @@ namespace BSplineMouse
             ZeroMemory(&input, sizeof(INPUT));
             input.type = INPUT_MOUSE;
 
-            mousePos = curve.evaluateSpline(3, 3, curve.whichInterval(time), time);
+            mousePos = vCurrentMousePosition + curve.evaluateSpline(3, 3, curve.whichInterval(time), time);
 
             input.mi.dx = static_cast<LONG>(round(mousePos.x))*65536 / GetSystemMetrics(SM_CXSCREEN);
             input.mi.dy = static_cast<LONG>(round(mousePos.y))*65536 / GetSystemMetrics(SM_CYSCREEN);
