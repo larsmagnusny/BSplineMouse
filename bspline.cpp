@@ -91,6 +91,9 @@ namespace BSplineMouse
 
         unsigned int numIntCp = static_cast<unsigned int>(round(dist / 100.0));
 
+        if(numIntCp == 0)
+            numIntCp = 1;
+
         Vec2 dirTan = dir.crossUp3D();
         dirTan.normalize();
 
