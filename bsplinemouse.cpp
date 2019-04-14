@@ -1,5 +1,5 @@
-#include "include/bsplinemouse.h"
-#include "include/bspline.h"
+#include "include/BSM/bsplinemouse.h"
+#include "include/BSM/bspline.h"
 #include <windows.h>
 #include <chrono>
 #include <cmath>

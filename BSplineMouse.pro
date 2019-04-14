@@ -28,10 +28,11 @@ SOURCES += \
         vec2.cpp
 
 HEADERS += \
-        include/bspline.h \
-        include/bsplinemouse.h \
-        include/vec2.h \
-        include/bsplinemouse_global.h
+    include/BSM/bspline.h \
+    include/BSM/bsplinemouse.h \
+    include/BSM/bsplinemouse_global.h \
+    include/BSM/vec2.h
+
 
 unix {
     target.path = /usr/lib

@@ -1,4 +1,4 @@
-#include "include/bspline.h"
+#include "include/BSM/bspline.h"
 #include <random>
 
 namespace BSplineMouse
@@ -87,25 +87,26 @@ namespace BSplineMouse
     {
         Vec2 dir = p1-p0;
 
+        double dist = dir.length();
+
+        unsigned int numIntCp = static_cast<unsigned int>(round(dist / 100.0));
+
         Vec2 dirTan = dir.crossUp3D();
         dirTan.normalize();
 
-        unsigned int size = 11;
+        unsigned int size = 2 + numIntCp;
 
         mControlPoints.reserve(size);
         mControlPoints.resize(size);
 
+        double dt = 1.0 / size;
+
         mControlPoints[0] = p0;
-        mControlPoints[1] = lerp(p0, p1, 0.1) + dirTan*randRange(-100, 100)*0.1;
-        mControlPoints[2] = lerp(p0, p1, 0.2) + dirTan*randRange(-100, 100);
-        mControlPoints[3] = lerp(p0, p1, 0.3) + dirTan*randRange(-100, 100);
-        mControlPoints[4] = lerp(p0, p1, 0.4) + dirTan*randRange(-100, 100);
-        mControlPoints[5] = lerp(p0, p1, 0.5) + dirTan*randRange(-100, 100);
-        mControlPoints[6] = lerp(p0, p1, 0.6) + dirTan*randRange(-100, 100);
-        mControlPoints[7] = lerp(p0, p1, 0.7) + dirTan*randRange(-100, 100);
-        mControlPoints[8] = lerp(p0, p1, 0.8) + dirTan*randRange(-100, 100);
-        mControlPoints[9] = lerp(p0, p1, 0.9) + dirTan*randRange(-100, 100)*0.1;
-        mControlPoints[10] = p1;
+
+        for(unsigned int i = 1; i < size-1; i++)
+            mControlPoints[i] = lerp(p0, p1, dt*i) + dirTan*randRange(-100, 100)*(i == 1 || i == size-2 ? 0.1 : 1.0);
+
+        mControlPoints[size-1] = p1;
 
         unsigned int numKnots = static_cast<unsigned int>(mControlPoints.size()) - 3;
         double delta = 1. / (numKnots+1);

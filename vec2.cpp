@@ -1,34 +1,19 @@
-#include "include/vec2.h"
+#include "include/BSM/vec2.h"
 #include <cmath>
 
 namespace BSplineMouse
 {
-    Vec2::Vec2(double _x, double _y) : x{_x}, y{_y}
-    {
-
-    }
+    Vec2::Vec2(double _x, double _y) : x{_x}, y{_y}{}
 
     void Vec2::operator+=(Vec2 other){ x += other.x; y += other.y; }
-
     Vec2 Vec2::operator+(const Vec2& other){ return Vec2(x + other.x, y + other.y); }
     Vec2 Vec2::operator-(Vec2 other){ return Vec2(x - other.x, y - other.y); }
-
-    Vec2 Vec2::operator*(Vec2 other)
-    {
-        return Vec2(x + other.x, y + other.y);
-    }
+    Vec2 Vec2::operator*(Vec2 other){ return Vec2(x + other.x, y + other.y); }
     Vec2 Vec2::operator*(const Vec2& other){ return Vec2(x * other.x, y * other.y); }
-
-    Vec2 Vec2::operator*(Vec2 *other)
-    {
-        return Vec2(x + other->x, y + other->y);
-    }
+    Vec2 Vec2::operator*(Vec2 *other){ return Vec2(x + other->x, y + other->y); }
     Vec2 Vec2::operator*(double other){ return Vec2(other*x, other*y); }
-
-    Vec2 Vec2::crossUp3D()
-    {
-        return Vec2(y, x);
-    }
+    Vec2 Vec2::crossUp3D(){ return Vec2(y, x); }
+    double Vec2::length(){ return std::sqrt(x*x + y*y); }
 
     void Vec2::normalize()
     {
@@ -45,4 +30,6 @@ namespace BSplineMouse
             y = 0.;
         }
     }
+
+
 }
